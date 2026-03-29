@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotina Mobilidade Ed</title>
+    <style>
+        :root {
+            --primary: #e63946;
+            --dark: #1d3557;
+            --light: #f1faee;
+            --accent: #457b9d;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container { max-width: 500px; width: 100%; }
+        h1 { text-align: center; color: var(--primary); font-size: 1.5rem; }
+
+        /* Timer Styles - Visual Original */
+        .timer-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 20px;
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            border: 1px solid #ddd;
+        }
+        #display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 5px 0;
+            color: var(--dark);
+        }
+        .timer-btns {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .timer-btns button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background: var(--accent);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            flex: 1 1 18%;
+        }
+        .control-btns { display: flex; justify-content: center; gap: 10px; }
+        .control-btns button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+        }
+
+        /* Exercise List */
+        .exercise-item {
+            background: white;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+        .exercise-header {
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid var(--primary);
+        }
+        .title-group { font-weight: bold; color: var(--dark); }
+        
+        /* Iframe Container */
+        .video-container {
+            display: none;
+            width: 100%;
+            background: #000;
+            aspect-ratio: 16 / 9;
+        }
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .details {
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            color: #666;
+            background: #fafafa;
+            border-top: 1px solid #eee;
+        }
+        .completed-checkbox { width: 22px; height: 22px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Mobilidade Ed | Powerlifting</h1>
+
+    <div class="timer-card">
+        <div id="display">00:00</div>
+        <div class="timer-btns">
+            <button onclick="setTimer(15)">15s</button>
+            <button onclick="setTimer(20)">20s</button>
+            <button onclick="setTimer(30)">30s</button>
+            <button onclick="setTimer(45)">45s</button>
+            <button onclick="setTimer(60)">60s</button>
+        </div>
+        <div class="control-btns">
+            <button id="startBtn" onclick="toggleTimer()">Iniciar</button>
+            <button onclick="resetTimer()" style="background:#666;">Reset</button>
+        </div>
+    </div>
+
+    <div id="exerciseList">
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v1', 'https://youtube.com/embed/TIJu5aWPke0?si=VGdAe3P1yWApwzPC')">
+                <div class="title-group">1. Couch Stretch</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">2 séries x 45s/lado.</div>
+            <div id="v1" class="video-container"></div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v3', 'https://youtube.com/embed/wH04F8_giBw?si=tXHoHbOCUVF6H8WA')">
+                <div class="title-group">3. Frog Stretch</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">2 séries x 60s.</div>
+            <div id="v3" class="video-container"></div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v4', 'https://youtube.com/embed/DmFMpA5PWII?si=6H11SFAa1axkxwgs')">
+                <div class="title-group">4. Cat-Cow Stretch</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">10-12 reps lentas.</div>
+            <div id="v4" class="video-container"></div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v5', 'https://youtube.com/embed/pBORw7VUxh0?si=Svf3AZL9_1gPtVmM')">
+                <div class="title-group">5. Puppy Pose</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">2 séries x 45s.</div>
+            <div id="v5" class="video-container"></div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v6', 'https://youtube.com/embed/sPu4uBX-fBw?si=tZYa61Xt1FBeSx1Z')">
+                <div class="title-group">6. Rotação Torácica</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">2 séries x 10 reps/lado.</div>
+            <div id="v6" class="video-container"></div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v7', 'https://youtube.com/embed/bsOYjx22OSc?si=1QWQ8bYQwXXGJ2fN')">
+                <div class="title-group">7. Deadbug (Lento)</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">3 séries x 12 reps.</div>
+            <div id="v7" class="video-container"></div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v8', 'https://youtube.com/embed/R6n608M3czU?si=Jsd8Np9bMFPLWeMz')">
+                <div class="title-group">8. Glute Bridge</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">2 séries x 15 reps.</div>
+            <div id="v8" class="video-container"></div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v9', 'https://youtube.com/embed/O83fmDwTYpg?si=jAvLSAngBVjUhdQl')">
+                <div class="title-group">9. Plank (Prancha)</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">45 a 60 segundos.</div>
+            <div id="v9" class="video-container"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Timer
+    let timer; let timeLeft = 0; let isRunning = false;
+    function setTimer(s) { clearInterval(timer); timeLeft = s; isRunning = false; updateDisplay(); document.getElementById('startBtn').innerText = "Iniciar"; }
+    function updateDisplay() {
+        const mins = Math.floor(timeLeft / 60); const secs = timeLeft % 60;
+        document.getElementById('display').innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+    }
+    function toggleTimer() {
+        if (isRunning) { clearInterval(timer); document.getElementById('startBtn').innerText = "Retomar"; }
+        else { if (timeLeft <= 0) return; timer = setInterval(() => { timeLeft--; updateDisplay(); if (timeLeft <= 0) { clearInterval(timer); alert("Concluído!"); } }, 1000); document.getElementById('startBtn').innerText = "Pausar"; }
+        isRunning = !isRunning;
+    }
+    function resetTimer() { clearInterval(timer); timeLeft = 0; isRunning = false; updateDisplay(); document.getElementById('startBtn').innerText = "Iniciar"; }
+
+    // Video Player Fix
+    function playVideo(id, url) {
+        const container = document.getElementById(id);
+        const isVisible = container.style.display === 'block';
+        
+        // Esconde e limpa todos os outros
+        document.querySelectorAll('.video-container').forEach(c => {
+            c.style.display = 'none';
+            c.innerHTML = '';
+        });
+
+        if (!isVisible) {
+            container.style.display = 'block';
+            // Usa apenas o URL de embed direto sem parâmetros complexos
+            container.innerHTML = `<iframe src="${url}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        }
+    }
+</script>
+</body>
+</html>
