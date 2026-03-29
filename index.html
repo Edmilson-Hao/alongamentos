@@ -6,13 +6,14 @@
     <meta name="theme-color" content="#e63946">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Mobilidade Ed</title>
+    <title>Mobilidade Diaria Ed</title>
     
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIk1vYmlsaWRhZGUgRWQiLAogICJzaG9ydF9uYW1lIjogIk1vYmlsRWRfIiwKICAic3RhcnRfdXJsIjogIi4vIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZTYzOTQ2IiwKICAidGhlbWVfY29sb3IiOiAiI2U2Mzk0NiIsCiAgImljb25zIjogW3sgInNyYyI6ICJodHRwczovL2Nkbi1pY29ucy9wbmcvUxIvcC8zMTc3LzMxNzc0NjIucG5nIiwgInNpemVzIjogIjUxMng1MTIiLCAidHlwZSI6ICJpbWFnZS9wbmciLCAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiIH1dCn0=">
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIk1vYmlsaWRhZGUgRWQiLAogICJzaG9ydF9uYW1lIjogIk1vYmlsRWRfIiwKICAic3RhcnRfdXJsIjogIi4vIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZTYzOTQ2IiwKICAidGhlbWVfY29sb3IiOiAiI2U2Mzk0NiIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vY2RuLWljb25zL3BuZy81MTIvMzE3Ny8zMTc3NDYyLnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfQogIF0KfQ==">
 
     <style>
         :root { --primary: #e63946; --dark: #1d3557; --light: #f1faee; --accent: #457b9d; }
         
+        /* Efeito de Flash Vermelho */
         @keyframes flashRed {
             0% { background-color: var(--light); }
             50% { background-color: #ffcccc; }
@@ -23,52 +24,60 @@
         body { 
             font-family: 'Segoe UI', sans-serif; background-color: var(--light); color: var(--dark); 
             margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; 
+            transition: background-color 0.3s;
         }
         .container { max-width: 500px; width: 100%; padding-bottom: 30px; }
-        h1 { text-align: center; color: var(--primary); font-size: 1.4rem; margin: 10px 0; text-transform: uppercase; }
+        h1 { text-align: center; color: var(--primary); font-size: 1.4rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Botão de Instalação Estilizado */
-        #installBtn {
-            display: none; /* Escondido por padrão */
+        /* Estilo do Botão de Instalação */
+        #btnInstalar {
+            display: none;
             width: 100%;
             padding: 15px;
-            background: var(--dark);
+            background-color: var(--dark);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-weight: bold;
+            font-size: 1rem;
             margin-bottom: 15px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(29, 53, 87, 0.3);
-            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-transform: uppercase;
         }
 
         .timer-card { 
             background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
             text-align: center; margin-bottom: 20px; position: sticky; top: 10px; z-index: 100; border: 1px solid #ddd; 
         }
-        #display { font-size: 3.5rem; font-weight: bold; margin: 5px 0; }
+        #display { font-size: 3.5rem; font-weight: bold; margin: 5px 0; font-variant-numeric: tabular-nums; }
         
         .timer-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin-bottom: 10px; }
-        .timer-btns button { padding: 12px 5px; border: none; border-radius: 8px; background: var(--accent); color: white; font-weight: bold; flex: 1; cursor: pointer; }
+        .timer-btns button { padding: 12px 5px; border: none; border-radius: 8px; background: var(--accent); color: white; font-weight: bold; flex: 1; cursor: pointer; font-size: 0.9rem; }
         
         .control-btns { display: flex; gap: 10px; }
-        .control-btns button { padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; flex: 1; cursor: pointer; }
+        .control-btns button { padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; flex: 1; cursor: pointer; font-size: 1rem; }
 
-        .exercise-item { background: white; margin-bottom: 12px; border-radius: 12px; overflow: hidden; border: 1px solid #eee; }
+        .exercise-item { background: white; margin-bottom: 12px; border-radius: 12px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .exercise-header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-left: 6px solid var(--primary); }
+        .title-group { font-weight: bold; font-size: 1.05rem; color: var(--dark); }
+        
         .video-container { display: none; width: 100%; background: #000; aspect-ratio: 9 / 16; }
         .video-container iframe { width: 100%; height: 100%; border: none; }
+        
         .details { padding: 12px 18px; font-size: 0.9rem; color: #555; background: #fafafa; border-top: 1px solid #eee; }
         .completed-checkbox { width: 26px; height: 26px; accent-color: var(--primary); cursor: pointer; }
-        
-        .reset-all { width: 100%; padding: 16px; background: #666; color: white; border: none; border-radius: 10px; margin-top: 20px; font-weight: bold; cursor: pointer; }
+
+        .reset-all { 
+            width: 100%; padding: 16px; background: var(--dark); color: white; border: none; 
+            border-radius: 10px; margin-top: 20px; font-weight: bold; cursor: pointer; text-transform: uppercase;
+        }
     </style>
 </head>
 <body id="body">
 
 <div class="container">
-    <button id="installBtn">📲 INSTALAR APP MOBILIDADE</button>
+    <button id="btnInstalar">📲 Instalar Mobilidade Ed</button>
 
     <h1>Mobilidade Ed | Power</h1>
 
@@ -95,49 +104,123 @@
             <div class="details">2 séries x 45s/lado.</div>
             <div id="v1" class="video-container"></div>
         </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v3', 'https://www.youtube.com/embed/wH04F8_giBw?si=tXHoHbOCUVF6H8WA')">
+                <div class="title-group">3. Frog Stretch</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">2 séries x 60s.</div>
+            <div id="v3" class="video-container"></div>
         </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v4', 'https://www.youtube.com/embed/DmFMpA5PWII?si=6H11SFAa1axkxwgs')">
+                <div class="title-group">4. Cat-Cow Stretch</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">10-12 reps lentas.</div>
+            <div id="v4" class="video-container"></div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v5', 'https://www.youtube.com/embed/pBORw7VUxh0?si=Svf3AZL9_1gPtVmM')">
+                <div class="title-group">5. Puppy Pose</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">2 séries x 45s.</div>
+            <div id="v5" class="video-container"></div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v6', 'https://www.youtube.com/embed/sPu4uBX-fBw?si=tZYa61Xt1FBeSx1Z')">
+                <div class="title-group">6. Rotação Torácica</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">2 séries x 10 reps/lado.</div>
+            <div id="v6" class="video-container"></div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v7', 'https://www.youtube.com/embed/bsOYjx22OSc?si=1QWQ8bYQwXXGJ2fN')">
+                <div class="title-group">7. Deadbug (Lento)</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">3 séries x 12 reps.</div>
+            <div id="v7" class="video-container"></div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v8', 'https://www.youtube.com/embed/R6n608M3czU?si=Jsd8Np9bMFPLWeMz')">
+                <div class="title-group">8. Glute Bridge</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">2 séries x 15 reps.</div>
+            <div id="v8" class="video-container"></div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v9', 'https://www.youtube.com/embed/O83fmDwTYpg?si=jAvLSAngBVjUhdQl')">
+                <div class="title-group">9. Plank (Prancha)</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">45 a 60 segundos.</div>
+            <div id="v9" class="video-container"></div>
+        </div>
+    </div>
 
     <button class="reset-all" onclick="resetCheckboxes()">Resetar Treino Completo</button>
 </div>
 
 <script>
-    // Lógica de Instalação
-    let deferredPrompt;
-    const installBtn = document.getElementById('installBtn');
+    // Lógica do Botão de Instalação
+    let promptDeInstalacao;
+    const btnInstalar = document.getElementById('btnInstalar');
 
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
-        deferredPrompt = e;
-        installBtn.style.display = 'block'; // Mostra o botão se puder instalar
+        promptDeInstalacao = e;
+        btnInstalar.style.display = 'block';
     });
 
-    installBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
+    btnInstalar.addEventListener('click', async () => {
+        if (promptDeInstalacao) {
+            promptDeInstalacao.prompt();
+            const { outcome } = await promptDeInstalacao.userChoice;
             if (outcome === 'accepted') {
-                installBtn.style.display = 'none';
+                btnInstalar.style.display = 'none';
             }
-            deferredPrompt = null;
+            promptDeInstalacao = null;
         }
     });
 
-    // Timer, Som e Flash
+    // Lógica Original do App
     let timer; let timeLeft = 0; let isRunning = false;
     const display = document.getElementById('display');
     const body = document.getElementById('body');
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playBeep() {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.type = 'sine'; osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime);
         gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
     }
 
-    function setTimer(s) { stopEffects(); clearInterval(timer); timeLeft = s; isRunning = false; updateDisplay(); document.getElementById('startBtn').innerText = "Iniciar"; }
+    function setTimer(s) { 
+        stopEffects();
+        clearInterval(timer); 
+        timeLeft = s; 
+        isRunning = false; 
+        updateDisplay(); 
+        document.getElementById('startBtn').innerText = "Iniciar"; 
+    }
+    
     function updateDisplay() {
         const mins = Math.floor(timeLeft / 60); const secs = timeLeft % 60;
         display.innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
@@ -154,9 +237,7 @@
                 if (timeLeft <= 0) { 
                     clearInterval(timer); isRunning = false; 
                     document.getElementById('startBtn').innerText = "Iniciar";
-                    body.classList.add('flash-active');
-                    display.style.color = 'var(--primary)';
-                    playBeep();
+                    triggerFinishEffects();
                 }
             }, 1000);
             document.getElementById('startBtn').innerText = "Pausar";
@@ -164,8 +245,18 @@
         isRunning = !isRunning;
     }
 
-    function stopEffects() { body.classList.remove('flash-active'); display.style.color = 'var(--dark)'; }
-    function resetTimer() { stopEffects(); clearInterval(timer); timeLeft = 0; isRunning = false; updateDisplay(); }
+    function triggerFinishEffects() {
+        body.classList.add('flash-active');
+        display.style.color = 'var(--primary)';
+        playBeep();
+    }
+
+    function stopEffects() {
+        body.classList.remove('flash-active');
+        display.style.color = 'var(--dark)';
+    }
+
+    function resetTimer() { stopEffects(); clearInterval(timer); timeLeft = 0; isRunning = false; updateDisplay(); document.getElementById('startBtn').innerText = "Iniciar"; }
 
     function playVideo(id, url) {
         const container = document.getElementById(id);
