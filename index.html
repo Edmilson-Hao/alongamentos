@@ -162,7 +162,7 @@
             if (timeLeft <= 0) return;
             timer = setInterval(() => {
                 timeLeft--; updateDisplay();
-                if (timeLeft <= 0) { clearInterval(timer); isRunning = false; document.getElementById('startBtn').innerText = "Iniciar"; alert("Tempo concluído!"); }
+                if (timeLeft <= 0) { clearInterval(timer); isRunning = false; document.getElementById('startBtn').innerText = "Iniciar";}
             }, 1000);
             document.getElementById('startBtn').innerText = "Pausar";
         }
