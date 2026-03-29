@@ -1,18 +1,19 @@
-const CACHE_NAME = 'mobilidade-ed-v1';
-const assets = ['./', './index.html'];
+const CACHE_NAME = 'mobilidade-v1';
 
-self.addEventListener('install', event => {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => {
-            return cache.addAll(assets);
-        })
-    );
+// Instala e força o SW a tomar controle imediatamente
+self.addEventListener('install', (event) => {
+    self.skipWaiting();
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener('activate', (event) => {
+    event.waitUntil(clients.claim());
+});
+
+// Responde às requisições (necessário para o status de PWA)
+self.addEventListener('fetch', (event) => {
     event.respondWith(
-        caches.match(event.request).then(response => {
-            return response || fetch(event.request);
+        fetch(event.request).catch(() => {
+            return caches.match(event.request);
         })
     );
 });
