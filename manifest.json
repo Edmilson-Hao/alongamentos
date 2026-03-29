@@ -1,0 +1,17 @@
+{
+  "name": "Mobilidade Diaria Ed",
+  "short_name": "MobilEd",
+  "description": "Treino de mobilidade para Powerlifting",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#e63946",
+  "theme_color": "#e63946",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3177/3177462.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

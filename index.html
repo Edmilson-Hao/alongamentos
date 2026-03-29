@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Mobilidade Diaria Ed</title>
     
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIk1vYmlsaWRhZGUgRWQiLAogICJzaG9ydF9uYW1lIjogIk1vYmlsRWRfIiwKICAic3RhcnRfdXJsIjogIi4vIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZTYzOTQ2IiwKICAidGhlbWVfY29sb3IiOiAiI2U2Mzk0NiIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vY2RuLWljb25zL3BuZy81MTIvMzE3Ny8zMTc3NDYyLnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfQogIF0KfQ==">
+    <link rel="manifest" href="manifest.json">
 
     <style>
         :root { --primary: #e63946; --dark: #1d3557; --light: #f1faee; --accent: #457b9d; }
@@ -25,38 +25,29 @@
             margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; 
         }
         .container { max-width: 500px; width: 100%; padding-bottom: 30px; }
-        h1 { text-align: center; color: var(--primary); font-size: 1.4rem; margin-bottom: 15px; text-transform: uppercase; }
-
-        /* BOTÃO SEMPRE VISÍVEL AGORA */
+        
+        /* Botão de Instalação */
         #btnInstalar {
-            display: block; /* FORÇADO */
-            width: 100%;
-            padding: 15px;
-            background-color: var(--dark);
-            color: white;
-            border: 4px solid var(--primary); /* Borda para destaque */
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-            cursor: pointer;
-            text-align: center;
+            display: none; width: 100%; padding: 18px; background-color: #2a9d8f; 
+            color: white; border: none; border-radius: 12px; font-weight: bold; 
+            margin-bottom: 15px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
+
+        h1 { text-align: center; color: var(--primary); font-size: 1.4rem; margin-bottom: 15px; text-transform: uppercase; }
 
         .timer-card { 
             background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
             text-align: center; margin-bottom: 20px; position: sticky; top: 10px; z-index: 100; border: 1px solid #ddd; 
         }
         #display { font-size: 3.5rem; font-weight: bold; margin: 5px 0; font-variant-numeric: tabular-nums; }
-        
         .timer-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin-bottom: 10px; }
         .timer-btns button { padding: 12px 5px; border: none; border-radius: 8px; background: var(--accent); color: white; font-weight: bold; flex: 1; cursor: pointer; }
-        
         .control-btns { display: flex; gap: 10px; }
         .control-btns button { padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; flex: 1; cursor: pointer; }
 
         .exercise-item { background: white; margin-bottom: 12px; border-radius: 12px; overflow: hidden; border: 1px solid #eee; }
         .exercise-header { padding: 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-left: 6px solid var(--primary); }
+        .title-group { font-weight: bold; font-size: 1rem; }
         .video-container { display: none; width: 100%; background: #000; aspect-ratio: 9 / 16; }
         .video-container iframe { width: 100%; height: 100%; border: none; }
         .details { padding: 12px 18px; font-size: 0.9rem; color: #555; background: #fafafa; border-top: 1px solid #eee; }
@@ -67,7 +58,7 @@
 <body id="body">
 
 <div class="container">
-    <button id="btnInstalar">VERIFICANDO INSTALAÇÃO...</button>
+    <button id="btnInstalar">📲 INSTALAR APLICATIVO MOBILIDADE</button>
 
     <h1>Mobilidade Ed | Power</h1>
 
@@ -87,54 +78,98 @@
 
     <div id="exerciseList">
         <div class="exercise-item">
-            <div class="exercise-header" onclick="playVideo('v1', 'https://www.youtube.com/embed/TIJu5aWPke0?si=VGdAe3P1yWApwzPC')">
+            <div class="exercise-header" onclick="playVideo('v1', 'https://www.youtube.com/embed/TIJu5aWPke0')">
                 <div class="title-group">1. Couch Stretch</div>
                 <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
             </div>
             <div class="details">2 séries x 45s/lado.</div>
             <div id="v1" class="video-container"></div>
         </div>
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v3', 'https://www.youtube.com/embed/wH04F8_giBw')">
+                <div class="title-group">3. Frog Stretch</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">2 séries x 60s.</div>
+            <div id="v3" class="video-container"></div>
         </div>
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v4', 'https://www.youtube.com/embed/DmFMpA5PWII')">
+                <div class="title-group">4. Cat-Cow Stretch</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">10-12 reps lentas.</div>
+            <div id="v4" class="video-container"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v5', 'https://www.youtube.com/embed/pBORw7VUxh0')">
+                <div class="title-group">5. Puppy Pose</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">2 séries x 45s.</div>
+            <div id="v5" class="video-container"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v6', 'https://www.youtube.com/embed/sPu4uBX-fBw')">
+                <div class="title-group">6. Rotação Torácica</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">2 séries x 10 reps/lado.</div>
+            <div id="v6" class="video-container"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v7', 'https://www.youtube.com/embed/bsOYjx22OSc')">
+                <div class="title-group">7. Deadbug (Lento)</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">3 séries x 12 reps.</div>
+            <div id="v7" class="video-container"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v8', 'https://www.youtube.com/embed/R6n608M3czU')">
+                <div class="title-group">8. Glute Bridge</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">2 séries x 15 reps.</div>
+            <div id="v8" class="video-container"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="exercise-header" onclick="playVideo('v9', 'https://www.youtube.com/embed/O83fmDwTYpg')">
+                <div class="title-group">9. Plank (Prancha)</div>
+                <input type="checkbox" class="completed-checkbox" onclick="event.stopPropagation()">
+            </div>
+            <div class="details">45 a 60 segundos.</div>
+            <div id="v9" class="video-container"></div>
+        </div>
+    </div>
 
     <button class="reset-all" onclick="resetCheckboxes()">Resetar Treino Completo</button>
 </div>
 
 <script>
-    let promptDeInstalacao;
-    const btnInstalar = document.getElementById('btnInstalar');
-
-    // 1. Tenta capturar o evento automático
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        promptDeInstalacao = e;
-        btnInstalar.innerText = "📲 INSTALAR APP AGORA";
-        btnInstalar.style.backgroundColor = "#2a9d8f"; // Muda para verde se pronto
-    });
-
-    // 2. Se em 4 segundos o Chrome não disparar o evento, damos a dica manual
-    setTimeout(() => {
-        if (!promptDeInstalacao) {
-            btnInstalar.innerText = "DICA: Use 'Instalar Aplicativo' no menu do Chrome (3 pontinhos)";
-            btnInstalar.style.backgroundColor = "#666";
-        }
-    }, 4000);
-
-    btnInstalar.addEventListener('click', async () => {
-        if (promptDeInstalacao) {
-            promptDeInstalacao.prompt();
-            const { outcome } = await promptDeInstalacao.userChoice;
-            if (outcome === 'accepted') btnInstalar.style.display = 'none';
-            promptDeInstalacao = null;
-        } else {
-            alert("Clique nos 3 pontinhos do Chrome e selecione 'Instalar Aplicativo' ou 'Adicionar à tela inicial'.");
-        }
-    });
-
-    // --- RESTANTE DO SEU CÓDIGO (TIMER, BEEP, VÍDEOS) ---
     let timer; let timeLeft = 0; let isRunning = false;
     const display = document.getElementById('display');
     const body = document.getElementById('body');
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // LÓGICA DE INSTALAÇÃO PWA
+    let deferredPrompt;
+    const btnInstalar = document.getElementById('btnInstalar');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        btnInstalar.style.display = 'block';
+    });
+
+    btnInstalar.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') btnInstalar.style.display = 'none';
+            deferredPrompt = null;
+        }
+    });
 
     function playBeep() {
         const osc = audioCtx.createOscillator();
@@ -145,7 +180,7 @@
         osc.start(); osc.stop(audioCtx.currentTime + 0.3);
     }
 
-    function setTimer(s) { stopEffects(); clearInterval(timer); timeLeft = s; updateDisplay(); }
+    function setTimer(s) { stopEffects(); clearInterval(timer); timeLeft = s; isRunning = false; updateDisplay(); }
     function updateDisplay() {
         const mins = Math.floor(timeLeft / 60); const secs = timeLeft % 60;
         display.innerText = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
@@ -188,7 +223,9 @@
     function resetCheckboxes() { document.querySelectorAll('.completed-checkbox').forEach(cb => cb.checked = false); }
 
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); });
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js').then(reg => console.log('SW registrado')).catch(err => console.log('Erro SW', err));
+        });
     }
 </script>
 </body>
